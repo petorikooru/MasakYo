@@ -65,8 +65,9 @@ export default function LoginPage() {
               {showPassword ? "🙈" : "👁️"}
             </button>
           </div>
-          <NavLink to="/menuUser">
-          <Buttonwide nama="Login!" />
+
+          <NavLink to="/user/discover">
+            <Buttonwide nama="Login!" />
           </NavLink>
         </div>
       </div>

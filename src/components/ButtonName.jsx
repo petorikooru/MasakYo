@@ -1,4 +1,93 @@
-export default function ButtonName({ nama, onClick, disabled = false }) {
+import SettingsIcon from "./SettingsIcon";
+
+export default function ButtonName({ 
+  nama, 
+  onClick, 
+  disabled = false,
+  showUserProfile = false,
+  userInitial = "U",
+  userName = "User",
+  userRole = "Profile",
+  avatarContent = null,
+  avatarBg = "bg-gradient-to-br from-red-500 to-red-600"
+}) {
+  if (showUserProfile) {
+    return (
+      <button 
+        onClick={onClick}
+        disabled={disabled}
+        className={`
+          group
+          flex items-center gap-2
+          px-3 py-2
+          rounded-[40px]
+          border
+          transition-all duration-300 ease-out
+          relative
+          ${disabled 
+            ? 'bg-gray-400/40 border-gray-300/50 cursor-not-allowed opacity-60' 
+            : `
+              bg-red-200/40 border-red-300/50 
+              hover:bg-red-200/60 hover:border-red-400/60 hover:shadow-md
+              active:scale-95
+            `
+          }
+        `}
+      >
+        {/* Customizable Avatar */}
+        <div className={`
+          w-8 h-8
+          rounded-full
+          flex items-center justify-center
+          text-white font-bold text-sm
+          shadow-inner
+          transition-transform duration-300
+          ${disabled ? '' : 'group-hover:scale-110'}
+          ${avatarBg}
+        `}>
+          {avatarContent || userInitial}
+        </div>
+        
+        {/* User Info */}
+        <div className="flex flex-col items-start">
+          <span className={`
+            font-semibold text-sm
+            transition-colors duration-300
+            ${disabled 
+              ? 'text-gray-600' 
+              : 'text-red-800 group-hover:text-red-900'
+            }
+          `}>
+            {userName}
+          </span>
+          <span className={`
+            text-xs
+            transition-colors duration-300
+            ${disabled 
+              ? 'text-gray-500/70' 
+              : 'text-red-600/70 group-hover:text-red-700/80'
+            }
+          `}>
+            {userRole}
+          </span>
+        </div>
+
+        {/* Settings Icon */}
+        <div className={`
+          transition-all duration-500
+          ml-1
+          ${disabled 
+            ? 'text-gray-500/40' 
+            : 'text-red-500/60 group-hover:text-red-600 group-hover:rotate-90'
+          }
+        `}>
+          <SettingsIcon size={14} />
+        </div>
+      </button>
+    );
+  }
+
+  // Original button style
   return (
     <button 
       onClick={onClick}

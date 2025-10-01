@@ -13,7 +13,7 @@ return (
         <NavLink to="/About" className="hover:text-[#A75A5A]">
           About
         </NavLink>
-        <NavLink to="/User">
+        <NavLink to="/login">
             <Button1 nama="Login" />
         </NavLink>
       </div>

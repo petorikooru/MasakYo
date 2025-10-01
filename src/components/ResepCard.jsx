@@ -21,7 +21,7 @@ export default function ResepCard({ title, category, description, imgUrl, diffic
         text-left
       "
     >
-      {/* Content Section */}
+      {/* ... rest of the ResepCard code remains the same ... */}
       <div className="flex-1 pr-8 flex flex-col min-w-0">
         {/* Header Section */}
         <div className="mb-6">

@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Landing      from "./pages/Landing";
-import About        from "./pages/About";
-import LoginPage    from "./pages/User"; 
-import MenuUser     from "./pages/menuUser";
-import Katalog      from "./pages/Katalog";
-import Discover     from "./pages/Discover";
-import Anggun       from "./pages/Anggun";
+import Landing          from "./pages/Landing";
+import About            from "./pages/About";
+import Login            from "./pages/Login"; 
+import UserKatalog      from "./pages/user/Katalog";
+import UserDiscover     from "./pages/user/Discover";
+import UserSettings     from "./pages/user/Settings";
+import UserRecipe       from "./pages/user/Recipe";
 
 export default function App() {
   return (
@@ -14,11 +14,11 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/about" element={<About />} />
-        <Route path="/User" element={<LoginPage />} /> 
-        <Route path="/menuUser" element={<MenuUser />} />
-        <Route path="/Discover" element={<Discover/>} />
-        <Route path="/Katalog" element={<Katalog/>} />
-        <Route path="/Anggun" element={<Anggun/>} />
+        <Route path="/login" element={<Login />} /> 
+        <Route path="/user/discover" element={<UserDiscover/>} />
+        <Route path="/user/katalog" element={<UserKatalog/>} />
+        <Route path="/user/settings" element={<UserSettings/>} />
+        <Route path="/user/recipe/:id" element={<UserRecipe/>} />
       </Routes>
     </Router>
   );

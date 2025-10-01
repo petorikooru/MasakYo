@@ -1,24 +1,23 @@
 import { useState } from "react";
 import { Search, ChevronDown, Check, X, Filter } from "lucide-react";
 
-export default function Sidebar({ menuData, recipes = [] }) {
+export default function Sidebar({ menuData, recipes = [], onFiltersChange, onMenuClick, activeFilters = [], activeMenu }) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeFilters, setActiveFilters] = useState(["Nusantara Only", "Beverages Only"]);
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(true);
-  const [activeMenu, setActiveMenu] = useState("For You"); // Track active menu item
 
   const toggleFilter = (filter) => {
-    setActiveFilters(prev =>
-      prev.includes(filter)
-        ? prev.filter(f => f !== filter)
-        : [...prev, filter]
-    );
+    const newFilters = activeFilters.includes(filter)
+      ? activeFilters.filter(f => f !== filter)
+      : [...activeFilters, filter];
+    onFiltersChange(newFilters);
   };
 
   const handleMenuClick = (menuTitle) => {
-    setActiveMenu(menuTitle);
+    if (onMenuClick) {
+      onMenuClick(menuTitle);
+    }
   };
 
   // Global recipe search function
@@ -59,9 +58,9 @@ export default function Sidebar({ menuData, recipes = [] }) {
   });
 
   const filterOptions = [
-    "Nusantara Only",
-    "Beverages Only", 
-    "Vegetarian"
+    "Nusantara",
+    "Western",
+    "Beverages", 
   ];
 
   return (
@@ -207,11 +206,18 @@ export default function Sidebar({ menuData, recipes = [] }) {
             >
               <div className="flex items-center">
                 {menu.icon && <span className="mr-3">{menu.icon}</span>}
-                <span className="transition-all duration-300">
-                  {menu.title}
-                </span>
+                <div className="flex-1">
+                  <span className="transition-all duration-300 block">
+                    {menu.title}
+                  </span>
+                  {menu.description && (
+                    <span className="text-xs text-gray-400 mt-1 block">
+                      {menu.description}
+                    </span>
+                  )}
+                </div>
                 {activeMenu === menu.title && (
-                  <div className="ml-auto w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+                  <div className="ml-2 w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
                 )}
               </div>
             </div>
