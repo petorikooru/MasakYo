@@ -2,9 +2,19 @@ import HeaderBarUser from "../components/headerbarUser";
 import Sidebar from "../components/sidebar";
 import ResepCard from "../components/ResepCard";
 
+import sample_image from "../assets/images/food_sample.png"
+import user_image from "../assets/images/user_image.jpg"
+
 export default function MenuUser() {
   return (
-    <div className="min-h-screen bg-neutral-100 relative">
+    <div className="min-h-screen bg-[url('{user_image}')] relative"
+            style={{ 
+                backgroundImage: `url(${user_image})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat'
+      }}
+    >
       <HeaderBarUser />
 
       <div className="flex p-4 space-x-4">
@@ -31,7 +41,7 @@ export default function MenuUser() {
             title="Rendang"
             category="Nusantara"
             description="Rendang adalah hidangan lauk pauk yang berasal dari Minangkabau, Indonesia dengan bahan dasar daging sapi..."
-            imgUrl="/foto1.jpg"
+            imgUrl={sample_image}
             difficulty={4}
             taste={5}
           />
@@ -39,7 +49,7 @@ export default function MenuUser() {
             title="Sate Ayam"
             category="Nusantara"
             description="Sate ayam adalah makanan khas Indonesia yang berupa daging ayam yang dipotong kecil-kecil lalu ditusuk dan dipanggang..."
-            imgUrl="/daging.jpg"
+            imgUrl={sample_image}
             difficulty={3}
             taste={5}
           />

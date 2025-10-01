@@ -9,7 +9,7 @@ export default function Sidebar({ menuData }) {
   };
 
   return (
-    <aside className="w-64 bg-neutral-900/80 backdrop-blur-md text-white p-4 rounded-2xl">
+    <aside className="ml-5 p-5 w-64 bg-neutral-900/80 backdrop-blur-md text-white rounded-2xl">
       <div className="flex items-center bg-neutral-700 rounded-full px-3 py-2 mb-4">
         <Search size={18} className="text-gray-300" />
         <input

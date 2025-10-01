@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import Buttonwide from "../components/buttonwide";
-import Button2 from "../components/Button2";
+import Button2 from "../components/button2";
 import Signup from "../components/login_signup";
 
 export default function LoginPage() {

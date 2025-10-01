@@ -1,15 +1,8 @@
+@import url("./src/fonts.css");
 @import "tailwindcss";
 
-@font-face {
-    font-family: "K2D";
-    src:
-        url("./assets/fonts/K2D-Regular.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
-}
-
 :root {
-  font-family: 'K2D';
+  font-family: 'K2D-Regular';
   line-height: 1.5;
   font-weight: 400;
 

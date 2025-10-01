@@ -1,7 +1,8 @@
 import Headerbar from "../components/headerbar";
+
 export default function Landing() {
   return (
-    <div className="relative h-screen bg-cover bg-center" style={{ backgroundImage: "url('/utama.jpg')" }}>
+    <div className="relative h-screen bg-cover bg-center" style={{ backgroundImage: "url('../assets/images/home_1.jpg')" }}>
       <div className="absolute inset-0 bg-black/40"></div>
 
       <div className="fixed top-0 left-0 w-full z-50">
