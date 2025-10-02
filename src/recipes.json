@@ -1,0 +1,181 @@
+{
+    "recipes": [
+        {
+            "id": 1,
+            "name": "Rendang",
+            "category": "Nusantara",
+            "description": "Rendang adalah hidangan lauk pangkuk yang berasal dari Minangkabau, Indonesia dengan bahan dasar daging sapi yang dimasak dalam suhu rendah dalam waktu lama dengan menggunakan aneka rempah-rempah dan santan.",
+            "ingredients": [
+                "daging sapi",
+                "santan",
+                "bawang merah",
+                "bawang putih",
+                "cabe merah",
+                "kemiri",
+                "kunyit",
+                "jahe",
+                "sereh",
+                "daun jeruk"
+            ],
+            "tags": [
+                "nusantara",
+                "daging",
+                "pedas",
+                "tradisional"
+            ],
+            "cookTime": "4 jam",
+            "difficulty": 4,
+            "taste": 5,
+            "imgUrl": "/assets/images/food_sample.png",
+            "steps": [
+                {
+                    "step": 1,
+                    "title": "Persiapan Bumbu",
+                    "description": "Haluskan semua bumbu seperti bawang merah, bawang putih, cabe, kemiri, kunyit, dan jahe. Tumis bumbu halus hingga harum dan matang.",
+                    "duration": "15 menit"
+                }
+            ],
+            "videoUrl": "https://www.youtube.com/embed/EXAMPLE_VIDEO_ID",
+            "servings": 6,
+            "rating": 4.8
+        },
+        {
+            "id": 2,
+            "name": "Sate Ayam",
+            "category": "Nusantara",
+            "description": "Sate ayam adalah makanan khas Indonesia yang berupa daging ayam yang dipotong kecil-kecil lalu ditusuk dan dipanggang dengan bumbu kacang yang khas.",
+            "ingredients": [
+                "daging ayam",
+                "kacang tanah",
+                "kecap manis",
+                "bawang merah",
+                "bawang putih",
+                "cabe",
+                "gula merah"
+            ],
+            "tags": [
+                "nusantara",
+                "ayam",
+                "panggang",
+                "street food"
+            ],
+            "cookTime": "45 menit",
+            "difficulty": 3,
+            "taste": 5,
+            "imgUrl": "/assets/images/food_sample.png",
+            "steps": [
+                {
+                    "step": 1,
+                    "title": "Persiapan Daging",
+                    "description": "Potong daging ayam menjadi kecil-kecil dan tusuk dengan tusukan sate.",
+                    "duration": "10 menit"
+                }
+            ],
+            "videoUrl": "https://www.youtube.com/embed/EXAMPLE_VIDEO_ID_2",
+            "servings": 4,
+            "rating": 4.6
+        },
+        {
+            "id": 3,
+            "name": "Spaghetti Carbonara",
+            "category": "Western",
+            "description": "Spaghetti carbonara adalah pasta Italia klasik dengan saus creamy dari telur, keju, dan bacon.",
+            "ingredients": [
+                "spaghetti",
+                "telur",
+                "keju parmesan",
+                "bacon",
+                "bawang putih",
+                "lada hitam"
+            ],
+            "tags": [
+                "western",
+                "pasta",
+                "italian",
+                "creamy"
+            ],
+            "cookTime": "30 menit",
+            "difficulty": 2,
+            "taste": 4,
+            "imgUrl": "/assets/images/food_sample.png",
+            "steps": [
+                {
+                    "step": 1,
+                    "title": "Rebus Spaghetti",
+                    "description": "Rebus spaghetti dalam air mendidih yang sudah diberi garam hingga al dente.",
+                    "duration": "10 menit"
+                }
+            ],
+            "videoUrl": "https://www.youtube.com/embed/EXAMPLE_VIDEO_ID_3",
+            "servings": 2,
+            "rating": 4.5
+        },
+        {
+            "id": 4,
+            "name": "Es Jeruk",
+            "category": "Beverages",
+            "description": "Minuman segar dari jeruk asli dengan es yang menyegarkan.",
+            "ingredients": [
+                "jeruk",
+                "gula",
+                "es batu",
+                "air"
+            ],
+            "tags": [
+                "beverages",
+                "segar",
+                "jeruk",
+                "minuman"
+            ],
+            "cookTime": "10 menit",
+            "difficulty": 1,
+            "taste": 4,
+            "imgUrl": "/assets/images/food_sample.png",
+            "steps": [
+                {
+                    "step": 1,
+                    "title": "Peras Jeruk",
+                    "description": "Peras jeruk hingga mendapatkan sari jeruk yang cukup.",
+                    "duration": "5 menit"
+                }
+            ],
+            "videoUrl": "https://www.youtube.com/embed/EXAMPLE_VIDEO_ID_4",
+            "servings": 1,
+            "rating": 4.2
+        },
+        {
+            "id": 5,
+            "name": "Gado-gado",
+            "category": "Nusantara",
+            "description": "Salad Indonesia dengan sayuran segar dan bumbu kacang yang lezat.",
+            "ingredients": [
+                "sayuran campur",
+                "kacang tanah",
+                "kecap manis",
+                "bawang goreng",
+                "kerupuk"
+            ],
+            "tags": [
+                "nusantara",
+                "vegetarian",
+                "salad",
+                "sehat"
+            ],
+            "cookTime": "25 menit",
+            "difficulty": 2,
+            "taste": 4,
+            "imgUrl": "/assets/images/food_sample.png",
+            "steps": [
+                {
+                    "step": 1,
+                    "title": "Siapkan Sayuran",
+                    "description": "Rebus sayuran secara terpisah sesuai dengan waktu matang masing-masing.",
+                    "duration": "10 menit"
+                }
+            ],
+            "videoUrl": "https://www.youtube.com/embed/EXAMPLE_VIDEO_ID_5",
+            "servings": 3,
+            "rating": 4.4
+        }
+    ]
+}
