@@ -1,6 +1,6 @@
 export default function ResepCard({ title, category, description, imgUrl, difficulty, taste, onClick }) {
   return (
-    <button 
+    <div 
       onClick={onClick}
       className="
         flex 
@@ -19,9 +19,10 @@ export default function ResepCard({ title, category, description, imgUrl, diffic
         group
         w-full
         text-left
+        cursor-pointer
       "
     >
-      {/* ... rest of the ResepCard code remains the same ... */}
+      {/* Content Section */}
       <div className="flex-1 pr-8 flex flex-col min-w-0">
         {/* Header Section */}
         <div className="mb-6">
@@ -99,6 +100,6 @@ export default function ResepCard({ title, category, description, imgUrl, diffic
           </div>
         </div>
       </div>
-    </button>
+    </div>
   );
 }

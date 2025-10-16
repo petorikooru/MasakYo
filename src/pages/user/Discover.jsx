@@ -1,14 +1,14 @@
-import HeaderbarUser from "@components/HeaderbarUser";
-import Sidebar from "@components/sidebar";
-import ResepCard from "@components/ResepCard";
-import Pagination from "@components/Pagination";
+import HeaderbarUser from "../../components/HeaderbarUser";
+import Sidebar from "../../components/sidebar";
+import ResepCard from "../../components/ResepCard";
+import Pagination from "../../components/Pagination";
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Flame, User } from "lucide-react";
 
-import sample_image from "@assets/images/food_sample.png";
-import recipesData from "@data/recipes.json";
-import user_image from "@assets/images/user_image.jpg";
+import sample_image from "../../assets/images/food_sample.png";
+import recipesData from "../../data/recipes.json";
+import user_image from "../../assets/images/user_image.jpg";
 
 export default function UserDiscover() {
   const [activeCategory, setActiveCategory] = useState("For You");
@@ -137,7 +137,7 @@ export default function UserDiscover() {
         
         <div className="grid grid-cols-12 m-10">
           {/* Sidebar */}
-          <div className="col-span-3">
+          <div className="col-span-4">
             <div className="fixed flex-shrink-0">
               <Sidebar
                 menuData={menuData}
@@ -151,7 +151,7 @@ export default function UserDiscover() {
           </div>
 
           {/* Recipe Grid */}
-          <div className="col-span-9">
+          <div className="col-span-8">
             {/* Welcome Header */}
             <div className="bg-gradient-to-r from-red-400/10 to-red-600/10 rounded-3xl p-8 border border-red-400/20 backdrop-blur-sm mb-5">
               <div className="flex justify-between items-start">

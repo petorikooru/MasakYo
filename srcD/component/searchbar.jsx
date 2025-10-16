@@ -13,8 +13,8 @@ const SearchBar = ({Admin, onAddClick}) => {
             placeholder="Cari resep"
             className="ml-2 w-full bg-transparent text-sm text-gray-700 placeholder-gray-400 focus:outline-none"
           />
-        </div>
       </div>
+        </div>
 
       {/* Menu */}
       <div className="mb-6">

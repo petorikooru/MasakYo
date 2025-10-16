@@ -4,7 +4,7 @@ import ButtonName from "./ButtonName";
 import { useState, useRef, useEffect } from "react";
 import { LogOut, User, Mail, Lock, Shield, HelpCircle, Trash2, Camera } from "lucide-react";
 
-import user_pfp from "@assets/images/pfp.png"
+import user_pfp from "../assets/images/pfp.png";
 
 import ChangeProfilePicturePopup from "./ChangeProfilePicturePopup";
 import ChangeEmailPopup from "./ChangeEmailPopup";

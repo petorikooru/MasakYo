@@ -4,6 +4,7 @@ import {recipes as initialRecipes} from '../assets/recipe';
 import Carousel from '../component/carousel';
 import Addmenu from '../assets/addmenu';
 import { useState } from "react";
+import HeaderbarAdmin from '../../src/components/HeaderbarAdmin';
 
 const Resep = () => {
   const [showAddMenu, setShowAddMenu] = useState(false);
@@ -21,6 +22,9 @@ const Resep = () => {
           backgroundImage: `url(${Apel})`,
         }}
       />
+
+      <HeaderbarAdmin />
+
       {/* Container untuk SearchBar dan Menubar */}
       <div className="relative z-10 flex items-start justify-start pl-12 pt-35 gap-20">
         {/* Bungkus SearchBar */}

@@ -2,9 +2,10 @@ import HeaderbarUser from "../../components/HeaderbarUser";
 import RecipeHeader from "../../components/RecipeHeader";
 import IngredientsCard from "../../components/IngredientsCard";
 import HowToCard from "../../components/HowToCard";
+import RecipeRating from "../../components/RecipeRating";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import user_image from "@assets/images/user_image.jpg";
+import user_image from "../../assets/images/user_image.jpg";
 
 export default function UserRecipe() {
   const location = useLocation();
@@ -26,20 +27,14 @@ export default function UserRecipe() {
 
   return (
     <div className="min-h-screen bg-neutral-900">
-      {/* Background Overlay */}
-      <div 
-        className="fixed inset-0 bg-cover bg-center bg-no-repeat opacity-20"
-        style={{ backgroundImage: `url(${user_image})` }}
-      />
-
-      <HeaderbarUser /> {/* Fixed typo: was HeaderBarUser */}
+      <HeaderbarUser />
       
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 pt-28 pb-12">
         <RecipeHeader recipe={recipe} />
         
         {/* Ingredients and How-to Section */}
-        <div className="flex gap-8">
+        <div className="flex gap-8 mb-8">
           {/* Ingredients Card - 20% width */}
           <div className="w-1/5">
             <IngredientsCard ingredients={ingredients} />
@@ -50,6 +45,21 @@ export default function UserRecipe() {
             <HowToCard 
               steps={recipe.steps || []}
               videoUrl={recipe.videoUrl}
+            />
+          </div>
+        </div>
+
+        {/* Rating Section */}
+        <div className="flex gap-8">
+          {/* Spacer for alignment with ingredients card */}
+          <div className="w-1/5"></div>
+          
+          {/* Rating Card - 80% width */}
+          <div className="w-4/5">
+            <RecipeRating 
+              recipeId={recipe.id}
+              recipeName={recipe.name}
+              initialRatings={recipe.ratings || []}
             />
           </div>
         </div>
