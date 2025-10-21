@@ -4,7 +4,7 @@ import CardRecipe from "@components/cards/CardRecipe";
 import Pagination from "@components/miscellaneous/Pagination";
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Clock, Bookmark, Star, Trash2 } from "lucide-react";
+import { Clock, Bookmark, Star, Trash2, Menu, X } from "lucide-react";
 import { type ReactNode } from "react";
 
 import sample_image from "@assets/images/food_sample.png";
@@ -45,15 +45,16 @@ export default function UserKatalog() {
   const [activeFilters, setActiveFilters] = useState<string[]>(["Nusantara", "Beverages", "Western"]);
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const recipesPerPage = 3;
   
   const navigate = useNavigate();
 
-  // Mock data for user activity (without timestamps for now)
+  // Mock data for user activity
   const [userActivity, setUserActivity] = useState<UserActivity>({
-    history: [1, 2, 3], // Just recipe IDs
+    history: [1, 2, 3],
     bookmarks: [1, 3, 5],
-    reviews: [1, 4] // Just recipe IDs that have been reviewed
+    reviews: [1, 4]
   });
 
   const menuData: MenuItem[] = [
@@ -145,6 +146,10 @@ export default function UserKatalog() {
 
   const handleMenuClick = (menuTitle: string): void => {
     setActiveCategory(menuTitle);
+    // Close sidebar on mobile after menu click
+    if (window.innerWidth < 1024) {
+      setIsSidebarOpen(false);
+    }
   };
 
   const handlePageChange = (page: number): void => {
@@ -156,7 +161,7 @@ export default function UserKatalog() {
     const newHistory = [
       recipe.id,
       ...userActivity.history.filter(id => id !== recipe.id)
-    ].slice(0, 50); // Keep only last 50 items
+    ].slice(0, 50);
     
     setUserActivity(prev => ({
       ...prev,
@@ -178,6 +183,10 @@ export default function UserKatalog() {
       ...prev,
       bookmarks: prev.bookmarks.filter(id => id !== recipeId)
     }));
+  };
+
+  const handleResetFilters = (): void => {
+    setActiveFilters([]);
   };
 
   const getActivityInfo = (recipe: Recipe): ActivityInfo => {
@@ -227,40 +236,80 @@ export default function UserKatalog() {
         style={{ backgroundImage: `url(${user_image})` }}
       />
       
+      {/* Mobile Sidebar Toggle */}
+      <div className="lg:hidden fixed bottom-6 left-6 z-50">
+        <button
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="p-3 bg-blue-500/80 backdrop-blur-sm rounded-full text-white shadow-lg"
+        >
+          {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
       {/* Content Container */}
-      <div className="relative p-[100px]">
+      <div className="relative lg:px-8 lg:py-6 px-4 py-24">
         <HeaderbarUser />
         
-        <div className="grid grid-cols-12 m-10">
-          {/* Sidebar */}
-          <div className="col-span-4">
-            <div className="fixed flex-shrink-0">
-              <SidebarUser
-                menuData={menuData}
-                recipes={allRecipes}
-                onFiltersChange={handleFiltersChange}
-                onMenuClick={handleMenuClick}
-                activeFilters={activeFilters}
-                activeMenu={activeCategory}
-              />
-            </div>
+        {/* Main Content Layout */}
+        <div className="flex gap-8 mt-7 lg:mt-25">
+          {/* Sidebar - Desktop */}
+          <div className="hidden lg:block w-80 flex-shrink-0 mr-10">
+            <SidebarUser
+              menuData={menuData}
+              recipes={allRecipes}
+              onFiltersChange={handleFiltersChange}
+              onMenuClick={handleMenuClick}
+              activeFilters={activeFilters}
+              activeMenu={activeCategory}
+            />
           </div>
 
-          {/* Recipe Grid */}
-          <div className="col-span-8">
+          {/* Main Content Area */}
+          <div className="flex-1 min-w-0 lg:mr-10">
             {/* Welcome Header */}
-            <div className="bg-gradient-to-r from-blue-400/10 to-blue-600/10 rounded-3xl p-8 border border-blue-400/20 backdrop-blur-sm mb-5">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h1 className="text-4xl font-bold text-white mb-2">
+            <div className="bg-gradient-to-r from-blue-400/10 to-blue-600/10 rounded-3xl p-6 lg:p-8 border border-blue-400/20 backdrop-blur-sm mb-6">
+              <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4">
+                <div className="flex-1">
+                  <h1 className="text-2xl lg:text-3xl font-bold text-white mb-2">
                     Aktivitas Anda 📚
                   </h1>
-                  <p className="text-blue-200 text-lg">
+                  <p className="text-blue-200 text-base lg:text-lg">
                     {activeFilters.length > 0 
                       ? `Menampilkan ${stats.filtered} resep dengan filter aktif` 
                       : stats.description
                     }
                   </p>
+                  
+                  {/* Active Filters Display */}
+                  {activeFilters.length > 0 && (
+                    <div className="mt-4">
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {activeFilters.map((filter, index) => (
+                          <span 
+                            key={index}
+                            className="px-3 py-1 bg-blue-500/30 border border-blue-400/50 rounded-full text-blue-200 text-sm flex items-center gap-2"
+                          >
+                            {filter}
+                            <button 
+                              onClick={() => {
+                                const newFilters = activeFilters.filter((_, i) => i !== index);
+                                setActiveFilters(newFilters);
+                              }}
+                              className="text-blue-300 hover:text-white ml-1"
+                            >
+                              ×
+                            </button>
+                          </span>
+                        ))}
+                      </div>
+                      <button
+                        onClick={handleResetFilters}
+                        className="px-4 py-2 bg-blue-400/20 border border-blue-400/30 rounded-xl text-blue-300 hover:bg-blue-400/30 transition-colors text-sm"
+                      >
+                        Reset Semua Filter
+                      </button>
+                    </div>
+                  )}
                   
                   {/* Category-specific actions */}
                   <div className="flex gap-4 mt-4">
@@ -277,17 +326,17 @@ export default function UserKatalog() {
                 </div>
                 
                 {/* Stats */}
-                <div className="text-right">
+                <div className="text-left lg:text-right">
                   <div className="text-blue-300 text-sm font-semibold">
                     Total {activeCategory.toLowerCase()}
                   </div>
-                  <div className="text-3xl font-bold text-white">
+                  <div className="text-2xl lg:text-3xl font-bold text-white">
                     {stats.total}
                   </div>
                 </div>
               </div>
 
-              <div className="flex gap-4 mt-4 text-sm text-blue-300">
+              <div className="flex flex-col lg:flex-row gap-2 lg:gap-4 mt-4 text-sm text-blue-300">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
                   <span>{stats.filtered} resep tersedia • {Math.min(recipesPerPage, currentRecipes.length)} resep per halaman</span>
@@ -304,52 +353,65 @@ export default function UserKatalog() {
             {/* Recipe Cards with Activity Info */}
             {currentRecipes.length > 0 ? (
               <>
-                {currentRecipes.map((recipe) => {
-                  const activityInfo = getActivityInfo(recipe);
-                  return (
-                    <div key={recipe.id} className="relative mb-6">
-                      <CardRecipe
-                        title={recipe.name}
-                        category={recipe.category}
-                        description={recipe.description}
-                        imgUrl={recipe.imgUrl}
-                        difficulty={recipe.difficulty}
-                        taste={recipe.taste}
-                        onClick={() => handleRecipeClick(recipe)}
-                      />
-                      
-                      {/* Activity Info Overlay */}
-                      <div className={`absolute top-4 right-4 flex items-center gap-2 px-3 py-2 rounded-full bg-${activityInfo.color}-400/20 border border-${activityInfo.color}-400/30 backdrop-blur-sm`}>
-                        {activityInfo.icon}
-                        <span className={`text-${activityInfo.color}-300 text-sm font-medium`}>
-                          {activityInfo.text}
-                        </span>
+                <div className="space-y-6">
+                  {currentRecipes.map((recipe) => {
+                    const activityInfo = getActivityInfo(recipe);
+                    return (
+                      <div key={recipe.id} className="relative">
+                        <CardRecipe
+                          title={recipe.name}
+                          category={recipe.category}
+                          description={recipe.description}
+                          imgUrl={recipe.imgUrl}
+                          difficulty={recipe.difficulty}
+                          taste={recipe.taste}
+                          onClick={() => handleRecipeClick(recipe)}
+                        />
                         
-                        {/* Remove button for bookmarks */}
-                        {activeCategory === "Bookmarks" && (
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleRemoveBookmark(recipe.id);
-                            }}
-                            className="ml-2 text-red-300 hover:text-white transition-colors"
-                          >
-                            <Trash2 size={14} />
-                          </button>
-                        )}
+                        {/* Activity Info Overlay */}
+                        <div className={`absolute top-4 right-4 flex items-center gap-2 px-3 py-2 rounded-full ${
+                          activityInfo.color === 'blue' ? 'bg-blue-400/20 border-blue-400/30' :
+                          activityInfo.color === 'green' ? 'bg-green-400/20 border-green-400/30' :
+                          activityInfo.color === 'yellow' ? 'bg-yellow-400/20 border-yellow-400/30' :
+                          'bg-gray-400/20 border-gray-400/30'
+                        } border backdrop-blur-sm`}>
+                          {activityInfo.icon}
+                          <span className={`text-${
+                            activityInfo.color === 'blue' ? 'blue' :
+                            activityInfo.color === 'green' ? 'green' :
+                            activityInfo.color === 'yellow' ? 'yellow' : 'gray'
+                          }-300 text-sm font-medium`}>
+                            {activityInfo.text}
+                          </span>
+                          
+                          {/* Remove button for bookmarks */}
+                          {activeCategory === "Bookmarks" && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleRemoveBookmark(recipe.id);
+                              }}
+                              className="ml-2 text-red-300 hover:text-white transition-colors"
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
                 
                 {/* Pagination Section */}
-                <Pagination
-                  totalItems={filteredRecipes.length}
-                  itemsPerPage={recipesPerPage}
-                  currentPage={currentPage}
-                  onPageChange={handlePageChange}
-                  maxVisiblePages={5}
-                />
+                <div className="mt-8">
+                  <Pagination
+                    totalItems={filteredRecipes.length}
+                    itemsPerPage={recipesPerPage}
+                    currentPage={currentPage}
+                    onPageChange={handlePageChange}
+                    maxVisiblePages={3}
+                  />
+                </div>
               </>
             ) : (
               /* No Results Message */
@@ -366,7 +428,7 @@ export default function UserKatalog() {
                 </p>
                 {activeFilters.length > 0 ? (
                   <button
-                    onClick={() => setActiveFilters([])}
+                    onClick={handleResetFilters}
                     className="px-6 py-3 bg-blue-400/20 border border-blue-400/30 rounded-xl text-blue-300 hover:bg-blue-400/30 transition-colors"
                   >
                     Reset Filter
@@ -384,6 +446,28 @@ export default function UserKatalog() {
           </div>
         </div>
       </div>
+
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <>
+          <div 
+            className="lg:hidden fixed inset-0 z-30 bg-black/50 backdrop-blur-sm"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+          <div className="lg:hidden fixed inset-y-0 left-0 z-40 w-4/5 max-w-sm bg-neutral-900/95 backdrop-blur-sm overflow-y-auto">
+            <div className="pt-40">
+              <SidebarUser
+                menuData={menuData}
+                recipes={allRecipes}
+                onFiltersChange={handleFiltersChange}
+                onMenuClick={handleMenuClick}
+                activeFilters={activeFilters}
+                activeMenu={activeCategory}
+              />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

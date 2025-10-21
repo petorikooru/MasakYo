@@ -5,9 +5,9 @@ import MainLogin       from "@/pages/MainLogin";
 import UserKatalog     from "@pages/user/UserKatalog";
 import UserDiscover    from "@pages/user/UserDiscover";
 import UserRecipe      from "@pages/user/UserRecipe";
-// import Home             from "../srcD/assets/adminhome";
-// import Resep            from "../srcD/assets/adminresep";
-// import AdminUser        from "../srcD/assets/adminuser";
+import AdminHome       from "@pages/admin/AdminHome";
+import AdminRecipe     from "@pages/admin/AdminRecipe"
+import AdminUser       from "@pages/admin/AdminUser";
 
 export default function App() {
   return (
@@ -19,6 +19,9 @@ export default function App() {
         <Route path="/user/katalog" element={<UserKatalog />} /> 
         <Route path="/user/discover" element={<UserDiscover />} /> 
         <Route path="/user/recipe/:id" element={<UserRecipe/>} />
+        <Route path="/admin/" element={<AdminHome />} /> 
+        <Route path="/admin/recipe/edit/:id" element={<AdminRecipe/>} />
+        <Route path="/admin/user" element={<AdminUser />} /> 
       </Routes>
     </Router>
   );

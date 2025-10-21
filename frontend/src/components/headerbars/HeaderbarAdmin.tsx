@@ -1,28 +1,23 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import ButtonRegular from "./ButtonRegular";
-import ButtonName from "./ButtonName";
+import ButtonRegular from "@components/buttons/ButtonRegular";
+import ButtonUser from "@components/buttons/ButtonUser";
 import { useState, useRef, useEffect } from "react";
-import { LogOut, User, Mail, Lock, Shield, HelpCircle, Trash2, Camera } from "lucide-react";
+import { LogOut, Lock, Shield, HelpCircle } from "lucide-react";
 
-import user_pfp from "../assets/images/pfp.png";
+import ChangePasswordPopup from "@components/popups/ChangePasswordPopup";
 
-import ChangeProfilePicturePopup from "./ChangeProfilePicturePopup";
-import ChangeEmailPopup from "./ChangeEmailPopup";
-import ChangePasswordPopup from "./ChangePasswordPopup";
-import ChangeUsernamePopup from "./ChangeUsernamePopup";
-import CustomerServicePopup from "./CustomerServicePopup";
-import DeleteAccountPopup from "./DeleteAccountPopup";
+type PopupType = "password" | null;
 
 export default function HeaderbarAdmin() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [activePopup, setActivePopup] = useState(null);
-  const dropdownRef = useRef(null);
+  const [activePopup, setActivePopup] = useState<PopupType>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   // Close dropdown when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleClickOutside = (event: globalThis.MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsSettingsOpen(false);
       }
     };
@@ -31,11 +26,11 @@ export default function HeaderbarAdmin() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleSettingsClick = () => {
+  const handleSettingsClick = (): void => {
     setIsSettingsOpen(!isSettingsOpen);
   };
 
-  const handleMenuItemClick = (action) => {
+  const handleMenuItemClick = (action: PopupType): void => {
     setIsSettingsOpen(false);
     setActivePopup(action);
   };
@@ -45,13 +40,7 @@ export default function HeaderbarAdmin() {
   };
 
   const menuItems = [
-    // Ganti ini ya
-    { icon: Camera, label: "Change Profile Picture", action: "profilePicture" },
-    { icon: Mail, label: "Change Email", action: "email" },
     { icon: Lock, label: "Change Password", action: "password" },
-    { icon: User, label: "Change UserName", action: "username" },
-    { icon: HelpCircle, label: "Customer Service", action: "customerService" },
-    { icon: Trash2, label: "Delete Account", action: "deleteAccount", destructive: true },
     { icon: LogOut, label: "Log Out", action: "logout" },
   ];
 
@@ -73,7 +62,7 @@ export default function HeaderbarAdmin() {
       ">
       {/* Logo Section */}
       <NavLink 
-        to="/user/discover"
+        to="/admin/"
         className="group flex items-center"
       >
         <h1 className="
@@ -88,26 +77,14 @@ export default function HeaderbarAdmin() {
         </h1>
       </NavLink>
 
-      {/* Navigation Links with improved active states */}
+      {/* Navigation Links */}
       <div className="flex items-center space-x-3">
-        <NavLink to="/admin/home">
-          {({ isActive }) => (
-            <div className="relative">
-              <ButtonRegular 
-                nama="Home" 
-                onClick={() => {}}
-                disabled={false}
-                isActive={isActive}
-              />
-            </div>
-          )}
-        </NavLink>
         
-        <NavLink to="/admin/resep">
+        <NavLink to="/admin/">
           {({ isActive }) => (
             <div className="relative">
               <ButtonRegular 
-                nama="Resep" 
+                nama="Manage Recipes" 
                 onClick={() => {}}
                 disabled={false}
                 isActive={isActive}
@@ -120,7 +97,7 @@ export default function HeaderbarAdmin() {
           {({ isActive }) => (
             <div className="relative">
               <ButtonRegular 
-                nama="User" 
+                nama="Manage Users" 
                 onClick={() => {}}
                 disabled={false}
                 isActive={isActive}
@@ -130,16 +107,16 @@ export default function HeaderbarAdmin() {
         </NavLink>
       </div>
 
-        {/* User Profile Section with Dropdown */}
+        {/* Admin Profile Section with Dropdown */}
         <div className="relative" ref={dropdownRef}>
           <button onClick={handleSettingsClick} className="outline-none">
-            <ButtonName
-              nama="Settings" 
+            <ButtonUser
+              nama="Admin" 
               onClick={() => {}}
               showUserProfile={true}
               userInitial="A"
               userName="Admin"
-              userRole="Admin"
+              userRole="Administrator"
             />
           </button>
 
@@ -173,7 +150,7 @@ export default function HeaderbarAdmin() {
                       if (item.action === "logout") {
                         handleLogout();
                       } else {
-                        handleMenuItemClick(item.action);
+                        handleMenuItemClick(item.action as PopupType);
                       }
                     }}
                     className={`
@@ -188,10 +165,10 @@ export default function HeaderbarAdmin() {
                       duration-200 
                       hover:bg-red-100 
                       active:bg-red-200
-                      ${item.destructive ? 'text-red-700 hover:text-red-800' : 'text-red-900 hover:text-red-950'}
+                      text-red-900 hover:text-red-950
                     `}
                   >
-                    <IconComponent size={18} className={item.destructive ? 'text-red-600' : 'text-red-700'} />
+                    <IconComponent size={18} className="text-red-700" />
                     <span className="text-sm font-medium">{item.label}</span>
                   </button>
                 );
@@ -201,29 +178,9 @@ export default function HeaderbarAdmin() {
         </div>
       </nav>
 
-      {/* Popup Modals */}
-      <ChangeProfilePicturePopup 
-        isOpen={activePopup === "profilePicture"} 
-        onClose={() => setActivePopup(null)} 
-      />
-      <ChangeEmailPopup 
-        isOpen={activePopup === "email"} 
-        onClose={() => setActivePopup(null)} 
-      />
+      {/* Popup Modals - Only necessary ones for admin */}
       <ChangePasswordPopup 
         isOpen={activePopup === "password"} 
-        onClose={() => setActivePopup(null)} 
-      />
-      <ChangeUsernamePopup 
-        isOpen={activePopup === "username"} 
-        onClose={() => setActivePopup(null)} 
-      />
-      <CustomerServicePopup 
-        isOpen={activePopup === "customerService"} 
-        onClose={() => setActivePopup(null)} 
-      />
-      <DeleteAccountPopup 
-        isOpen={activePopup === "deleteAccount"} 
         onClose={() => setActivePopup(null)} 
       />
     </>
