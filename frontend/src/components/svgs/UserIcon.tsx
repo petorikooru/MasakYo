@@ -1,0 +1,20 @@
+interface SettingsIconProps {
+  size?: number;
+  className?: string;
+}
+
+export default function UserIcon({ size = 80, className = "" }: SettingsIconProps) {
+  return (
+    <svg 
+      width={size} 
+      height={size} 
+      viewBox="0 0 80 80" 
+      fill="none"
+      className={className}
+    >
+    <circle cx="40" cy="40" r="40" fill="#DC2626" fill-opacity="0.2"/>
+    <circle cx="40" cy="30" r="10" fill="#DC2626" fill-opacity="0.6"/>
+    <path d="M25 65C25 55 32.5 50 40 50C47.5 50 55 55 55 65V70H25V65Z" fill="#DC2626" fill-opacity="0.6"/>
+    </svg>
+  );
+}

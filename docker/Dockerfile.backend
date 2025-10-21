@@ -1,0 +1,48 @@
+FROM php:8.1-fpm-alpine
+# Build stage
+FROM composer:latest as vendor
+WORKDIR /app
+COPY backend/composer.json backend/composer.lock ./
+RUN composer install --no-dev --optimize-autoloader --no-scripts
+
+# Runtime stage
+FROM alpine:latest
+RUN apk update && apk add --no-cache \
+    php82 php82-fpm php82-mysqli php82-pdo_mysql \
+    php82-mbstring php82-xml php82-curl php82-tokenizer \
+    php82-ctype php82-fileinfo php82-phar php82-openssl \
+    php82-json php82-session php82-zip php82-dom \
+    nginx mysql-client curl
+
+# Create directories and symlinks
+RUN mkdir -p /var/www/backend /run/nginx && \
+    ln -s /usr/bin/php82 /usr/bin/php && \
+    ln -s /usr/sbin/php-fpm82 /usr/sbin/php-fpm && \
+    adduser -D -g 'www' www && \
+    adduser nginx www
+
+WORKDIR /var/www/backend
+
+# Copy vendor from build stage
+COPY --from=vendor /app/vendor ./vendor
+
+# Copy application code
+COPY backend/ .
+
+# Fix permissions - CRITICAL FIX
+RUN chown -R www:www /var/www && \
+    chmod -R 775 /var/www/backend/storage && \
+    chmod -R 775 /var/www/backend/bootstrap/cache && \
+    chown -R www:www /var/www/backend/storage && \
+    chown -R www:www /var/www/backend/bootstrap/cache
+
+# Copy Nginx configuration
+COPY docker/nginx-backend.conf /etc/nginx/nginx.conf
+
+# Fix PHP-FPM user
+RUN sed -i 's/user = nginx/user = www/g' /etc/php82/php-fpm.d/www.conf && \
+    sed -i 's/group = nginx/group = www/g' /etc/php82/php-fpm.d/www.conf
+
+EXPOSE 80
+
+CMD sh -c "php-fpm -D && nginx -g 'daemon off;'"

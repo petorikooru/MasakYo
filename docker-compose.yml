@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+    ports:
+      - "8000:80"
+    volumes:
+      - ./backend:/var/www/backend
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+    depends_on:
+      - mysql
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/var/www/frontend
+      - frontend_node_modules:/var/www/frontend/node_modules
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql # ✅ Correct volume mount
+
+volumes:
+  mysql_data:
+  frontend_node_modules:
