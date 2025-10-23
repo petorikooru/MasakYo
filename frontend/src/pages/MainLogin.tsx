@@ -77,6 +77,7 @@ export default function MainLogin() {
         localStorage.setItem("user", JSON.stringify(result.user));
         navigate("/user/discover");
       } else {
+        console.error("Sign-up error:", e);
         setError(result.error || "Registration failed");
       }
     } catch (err) {

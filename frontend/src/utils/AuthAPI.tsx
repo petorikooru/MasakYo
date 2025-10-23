@@ -5,7 +5,7 @@ export interface User {
   username: string;
   email: string;
   created_at: string;
-}
+} 
 
 export interface AuthResponse {
   success: boolean;
@@ -54,7 +54,9 @@ export const AuthAPI = {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
+        credentials: 'include', // Add this for CORS
         body: JSON.stringify({
+          name: username, // Add this if your Laravel expects a name
           username,
           email,
           password,
@@ -64,15 +66,28 @@ export const AuthAPI = {
 
       const data = await response.json();
       
-      if (!response.ok) {
+       if (!response.ok) {
+        console.error('Registration error:', data); // Add this for debugging
         return {
           success: false,
+          errors: data.errors,
           error: data.errors ? Object.values(data.errors).flat().join(', ') : 'Registration failed'
         };
       }
 
-      return data;
+      // If successful, store the token
+      if (data.token) {
+        localStorage.setItem('auth_token', data.token);
+      }
+
+      return {
+        success: true,
+        user: data.user,
+        access_token: data.token,
+        token_type: data.token_type
+      };
     } catch (error) {
+      console.error('Network error:', error); // Add this for debugging
       return {
         success: false,
         error: 'Network error occurred'
@@ -98,3 +113,4 @@ export const AuthAPI = {
     }
   }
 };
+
